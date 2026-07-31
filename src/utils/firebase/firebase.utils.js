@@ -1,7 +1,13 @@
 import { initializeApp } from 'firebase/app';
-import { GoogleAuthProvider, getAuth, signInWithPopup } from 'firebase/auth';
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
 import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
+//Firebase Config
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_GOOGLE_API_KEY,
   authDomain: 'crwn-clothing-b173b.firebaseapp.com',
@@ -13,6 +19,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 
+// Firebase Authnetication
 const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
   prompt: 'select_account',
@@ -22,8 +29,17 @@ export const auth = getAuth();
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
 
+export const createUserAuthWithEmailAndPassword = async (email, password) => {
+  if (!email || !password) return;
+
+  return await createUserWithEmailAndPassword(auth, email, password);
+};
+
+// Farebase Firestore
 export const db = getFirestore(firebaseApp);
-export const createUserDocumentFromAuth = async (userAuth) => {
+export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
+  if (!userAuth) return;
+
   const userDocRef = doc(db, 'users', userAuth.uid);
   const userSnapshot = await getDoc(userDocRef);
 
@@ -32,7 +48,12 @@ export const createUserDocumentFromAuth = async (userAuth) => {
     const createdAt = new Date();
 
     try {
-      await setDoc(userDocRef, { displayName, email, createdAt });
+      await setDoc(userDocRef, {
+        displayName,
+        email,
+        createdAt,
+        ...additionalInfo,
+      });
     } catch (error) {
       console.log('error creating user doc', error.messsage);
     }

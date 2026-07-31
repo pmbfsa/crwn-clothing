@@ -3,7 +3,7 @@ import { Outlet, Link } from 'react-router';
 
 import CrwnLogo from '../../assets/crown.svg?react';
 
-import './navigation.style.scss';
+import './navigation.styles.scss';
 
 const Navigation = () => {
   return (
