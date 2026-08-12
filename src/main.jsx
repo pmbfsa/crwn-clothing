@@ -9,7 +9,7 @@ import CartProvider from './providers/cart.provider.jsx';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/crwn-clothing">
       <UserProvider>
         <CategoriesProvider>
           <CartProvider>
