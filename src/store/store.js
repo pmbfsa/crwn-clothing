@@ -1,5 +1,6 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
+import { thunk } from 'redux-thunk';
 
 import rootReducer from './root-reducer';
 
@@ -13,7 +14,7 @@ const storage = {
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['user'],
+  whitelist: ['cart'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -24,6 +25,8 @@ if (import.meta.env.DEV) {
   const { createLogger } = await import('redux-logger');
   middlewares.push(createLogger());
 }
+
+middlewares.push(thunk);
 
 const composedEnhancers = compose(applyMiddleware(...middlewares));
 
