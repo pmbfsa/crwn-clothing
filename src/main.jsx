@@ -1,22 +1,23 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { HashRouter } from 'react-router';
-import './index.scss';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+
 import App from './App.jsx';
-import UserProvider from './providers/user.provider.jsx';
-import CategoriesProvider from './providers/categories.provider.jsx';
-import CartProvider from './providers/cart.provider.jsx';
+
+import { store, persistor } from './store/store.js';
+
+import './index.scss';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <HashRouter>
-      <UserProvider>
-        <CategoriesProvider>
-          <CartProvider>
-            <App />
-          </CartProvider>
-        </CategoriesProvider>
-      </UserProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <App />
+        </PersistGate>
+      </Provider>
     </HashRouter>
   </StrictMode>,
 );
