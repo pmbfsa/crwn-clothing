@@ -40,6 +40,7 @@ googleProvider.setCustomParameters({
 });
 
 export const auth = getAuth();
+
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
 
@@ -60,8 +61,21 @@ export const signOutUser = async () => await signOut(auth);
 export const onAuthStateChangedListener = (callback) =>
   onAuthStateChanged(auth, callback);
 
+export const getCurrentUser = () => {
+  return new Promise((resolve, reject) => {
+    const unsubscribe = onAuthStateChanged(
+      auth,
+      (userAuth) => {
+        (unsubscribe(), resolve(userAuth));
+      },
+      reject,
+    );
+  });
+};
+
 // Farebase Firestore
 export const db = getFirestore(firebaseApp);
+
 export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
   if (!userAuth) return;
 
@@ -84,7 +98,7 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInfo) => {
     }
   }
 
-  return userDocRef;
+  return userSnapshot;
 };
 
 export const addCollectionAndDocuments = async (

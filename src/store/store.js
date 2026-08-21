@@ -1,8 +1,10 @@
 import { compose, createStore, applyMiddleware } from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
-import { thunk } from 'redux-thunk';
+
+import createSagaMiddleware from 'redux-saga';
 
 import rootReducer from './root-reducer';
+import rootSaga from './root-saga';
 
 const storage = {
   getItem: (key) => Promise.resolve(window.localStorage.getItem(key)),
@@ -18,6 +20,7 @@ const persistConfig = {
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+const sagaMiddleware = createSagaMiddleware();
 
 const middlewares = [];
 
@@ -26,7 +29,7 @@ if (import.meta.env.DEV) {
   middlewares.push(createLogger());
 }
 
-middlewares.push(thunk);
+middlewares.push(sagaMiddleware);
 
 const composedEnhancers = compose(applyMiddleware(...middlewares));
 
@@ -35,5 +38,7 @@ export const store = createStore(
   undefined,
   composedEnhancers,
 );
+
+sagaMiddleware.run(rootSaga);
 
 export const persistor = persistStore(store);

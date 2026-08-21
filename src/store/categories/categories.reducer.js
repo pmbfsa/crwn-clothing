@@ -11,11 +11,11 @@ const categoriesReducer = (state = INITIAL_STATE, action = {}) => {
 
   switch (type) {
     case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_START:
-      return { ...state, isLoading: true, error: null };
+      return { ...state, isLoading: true };
     case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_SUCCESS:
-      return { ...state, categories: payload, isLoading: false, error: null };
+      return { ...state, isLoading: false, categories: payload, error: null };
     case CATEGORIES_ACTION_TYPES.FETCH_CATEGORIES_FAIL:
-      return { ...state, isLoading: false, error: payload };
+      return { ...state, isLoading: false, categories: [], error: payload };
     default:
       return state;
   }
