@@ -1,6 +1,4 @@
-import { createAction } from '../../utils/reducer/reducer.utils';
-
-import CART_ACTION_TYPES from './cart.types';
+import { createSlice } from '@reduxjs/toolkit';
 
 const addCartItem = (cartItems, productToAdd) => {
   const existingCartItem = cartItems.find(
@@ -37,17 +35,37 @@ const removeCartItem = (cartItems, cartItemToRemove) => {
 const clearCartItem = (cartItems, cartItemToClear) =>
   cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 
-const setCartItems = (cartItems) =>
-  createAction(CART_ACTION_TYPES.SET_CART_ITEMS, cartItems);
+const initialState = {
+  isCartOpen: false,
+  cartItems: [],
+};
 
-export const setIsCartOpen = (isOpen) =>
-  createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, isOpen);
+const cartSlice = createSlice({
+  name: 'cart',
+  initialState,
+  reducers: {
+    setIsCartOpen(state, action) {
+      state.isCartOpen = action.payload;
+    },
+    addItemToCart(state, action) {
+      state.cartItems = addCartItem(state.cartItems, action.payload);
+    },
+    removeItemFromCart(state, action) {
+      state.cartItems = removeCartItem(state.cartItems, action.payload);
+    },
+    clearItemFromCart(state, action) {
+      state.cartItems = clearCartItem(state.cartItems, action.payload);
+    },
+  },
+});
 
-export const addItemToCart = (cartItems, productToAdd) =>
-  setCartItems(addCartItem(cartItems, productToAdd));
+const cartReducer = cartSlice.reducer;
 
-export const removeItemFromCart = (cartItems, cartItemToRemove) =>
-  setCartItems(removeCartItem(cartItems, cartItemToRemove));
+export const {
+  setIsCartOpen,
+  addItemToCart,
+  removeItemFromCart,
+  clearItemFromCart,
+} = cartSlice.actions;
 
-export const clearItemFromCart = (cartItems, cartItemToClear) =>
-  setCartItems(clearCartItem(cartItems, cartItemToClear));
+export default cartReducer;

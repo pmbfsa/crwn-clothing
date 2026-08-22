@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route } from 'react-router';
 import { useDispatch } from 'react-redux';
 
-import { checkUserSession } from './store/user/user.actions.js';
+import { checkUserSession } from './store/user/user.slice.js';
 
 import Navigation from './routes/navigation/navigation.component.jsx';
 import Home from './routes/home/home.component.jsx';

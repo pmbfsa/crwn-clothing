@@ -4,7 +4,7 @@ import {
   selectIsCartOpen,
   selectCartCount,
 } from '../../store/cart/cart.selectors.js';
-import { setIsCartOpen } from '../../store/cart/cart.actions.js';
+import { setIsCartOpen } from '../../store/cart/cart.slice.js';
 
 import {
   CartIconContainer,

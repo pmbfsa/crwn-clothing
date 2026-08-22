@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import {
   googleSignInStart,
   emailSignInStart,
-} from '../../store/user/user.actions.js';
+} from '../../store/user/user.slice.js';
 
 import FormInput from '../form-input/form-input.component.jsx';
 import Button from '../button/button.component.jsx';
@@ -35,17 +35,9 @@ const SignInForm = () => {
   const formSubmitHandle = (event) => {
     event.preventDefault();
 
-    try {
-      dispatch(emailSignInStart(email, password));
+    dispatch(emailSignInStart({ email, password }));
 
-      resetFormFields();
-    } catch (error) {
-      if (error.code === 'auth/invalid-credential') {
-        alert('Incorrect email and password');
-      } else {
-        console.log('sign in authentication failed:', error.message);
-      }
-    }
+    resetFormFields();
   };
 
   const fieldChangeHandle = (event) => {

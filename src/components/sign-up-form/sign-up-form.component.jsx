@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { signUpStart } from '../../store/user/user.actions.js';
+import { signUpStart } from '../../store/user/user.slice.js';
 
 import FormInput from '../form-input/form-input.component.jsx';
 import Button from '../button/button.component.jsx';
@@ -34,7 +34,7 @@ const SignUpForm = () => {
     }
 
     try {
-      dispatch(signUpStart(email, password, displayName));
+      dispatch(signUpStart({ email, password, displayName }));
 
       resetFormFields();
     } catch (error) {

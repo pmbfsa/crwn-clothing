@@ -10,15 +10,18 @@ import {
 } from '../../utils/firebase/firebase.utils';
 
 import {
+  checkUserSession,
+  googleSignInStart,
+  emailSignInStart,
   signInSuccess,
   signInFail,
+  signUpStart,
   signUpSuccess,
   signUpFail,
+  signOutStart,
   signOutSuccess,
   signOutFail,
-} from './user.actions';
-
-import USER_ACTION_TYPES from './user.types';
+} from './user.slice';
 
 function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
   try {
@@ -28,9 +31,15 @@ function* getSnapshotFromUserAuth(userAuth, additionalDetails) {
       additionalDetails,
     );
 
-    yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
+    yield put(
+      signInSuccess({
+        id: userSnapshot.id,
+        ...userSnapshot.data(),
+        createdAt: userSnapshot.data().createdAt.toDate().toISOString(),
+      }),
+    );
   } catch (error) {
-    yield put(signInFail(error));
+    yield put(signInFail(error.message));
   }
 }
 
@@ -42,7 +51,7 @@ function* isUserAuthenticated() {
 
     yield call(getSnapshotFromUserAuth, userAuth);
   } catch (error) {
-    yield put(signInFail(error));
+    yield put(signInFail(error.message));
   }
 }
 
@@ -54,7 +63,7 @@ function* signInWithGoogle() {
 
     yield call(getSnapshotFromUserAuth, user);
   } catch (error) {
-    yield put(signInFail(error));
+    yield put(signInFail(error.message));
   }
 }
 
@@ -72,11 +81,10 @@ function* signInWithEmail(action) {
 
     yield call(getSnapshotFromUserAuth, user);
   } catch (error) {
-    if (error.code === 'auth/invalid-credential') {
+    if (error.code === 'auth/invalid-credential')
       alert('Incorrect email and password');
-    } else {
-      yield put(signInFail(error));
-    }
+
+    yield put(signInFail(error.message));
   }
 }
 
@@ -92,18 +100,18 @@ function* signUp(action) {
 
     if (!user) return;
 
-    yield put(signUpSuccess(user, { displayName }));
+    yield put(signUpSuccess({ user, additionalDetails: { displayName } }));
   } catch (error) {
-    yield put(signUpFail(error));
+    yield put(signUpFail(error.message));
   }
 }
 
-function* signOutStart() {
+function* signOut() {
   try {
     yield call(signOutUser);
     yield put(signOutSuccess());
   } catch (error) {
-    yield put(signOutFail(error));
+    yield put(signOutFail(error.message));
   }
 }
 
@@ -114,27 +122,27 @@ function* signInAfterSignUp(action) {
 }
 
 function* onCheckUserSession() {
-  yield takeLatest(USER_ACTION_TYPES.CHECK_USER_SESSION, isUserAuthenticated);
+  yield takeLatest(checkUserSession.type, isUserAuthenticated);
 }
 
 function* onGoogleSignInStart() {
-  yield takeLatest(USER_ACTION_TYPES.GOOGLE_SIGN_IN_START, signInWithGoogle);
+  yield takeLatest(googleSignInStart.type, signInWithGoogle);
 }
 
 function* onEmailSignInStart() {
-  yield takeLatest(USER_ACTION_TYPES.EMAIL_SIGN_IN_START, signInWithEmail);
+  yield takeLatest(emailSignInStart.type, signInWithEmail);
 }
 
 function* onSignUpStart() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_START, signUp);
+  yield takeLatest(signUpStart.type, signUp);
 }
 
 function* onSignUpSuccess() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_UP_SUCCESS, signInAfterSignUp);
+  yield takeLatest(signUpSuccess.type, signInAfterSignUp);
 }
 
 function* onSignOutStart() {
-  yield takeLatest(USER_ACTION_TYPES.SIGN_OUT_START, signOutStart);
+  yield takeLatest(signOutStart.type, signOut);
 }
 
 function* userSaga() {

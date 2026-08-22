@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import { Outlet } from 'react-router';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { signOutStart } from '../../store/user/user.actions.js';
+import { signOutStart } from '../../store/user/user.slice.js';
 import { selectCurrentUser } from '../../store/user/user.selectors.js';
 import { selectIsCartOpen } from '../../store/cart/cart.selectors.js';
 
