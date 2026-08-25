@@ -59,8 +59,6 @@ const PaymentForm = () => {
         },
       });
 
-      setIsProcessingPayment(false);
-
       if (paymentResult.error) {
         alert(paymentResult.error);
       } else {
@@ -68,7 +66,10 @@ const PaymentForm = () => {
           alert('Payment Successful!');
         }
       }
+
+      setIsProcessingPayment(false);
     } catch (error) {
+      setIsProcessingPayment(false);
       console.log(error);
     }
   };

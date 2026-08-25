@@ -1,10 +1,8 @@
-require('dotenv').config({
-  path: ['.env.local', '.env'],
-});
+import Stripe from 'stripe';
 
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const { amount } = JSON.parse(event.body);
 
   try {
