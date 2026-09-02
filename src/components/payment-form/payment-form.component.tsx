@@ -2,8 +2,9 @@ import type { SubmitEvent } from 'react';
 import type { StripeCardElement } from '@stripe/stripe-js';
 
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
+import { useAppSelector } from '../../store/hooks';
 
 import { selectCartTotal } from '../../store/cart/cart.selectors';
 import { selectCurrentUser } from '../../store/user/user.selectors';
@@ -19,8 +20,8 @@ import {
 const PaymentForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const amount = useSelector(selectCartTotal);
-  const currentUser = useSelector(selectCurrentUser);
+  const amount = useAppSelector(selectCartTotal);
+  const currentUser = useAppSelector(selectCurrentUser);
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   const isValidCard = (

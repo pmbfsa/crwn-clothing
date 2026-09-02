@@ -1,7 +1,8 @@
 import type { SubmitEvent, ChangeEvent } from 'react';
 
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+
+import { useAppDispatch } from '../../store/hooks';
 
 import {
   googleSignInStart,
@@ -21,7 +22,7 @@ const defaultFormFields = {
 };
 
 const SignInForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { email, password } = formFields;

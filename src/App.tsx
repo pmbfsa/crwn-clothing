@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router';
-import { useDispatch } from 'react-redux';
+
+import { useAppDispatch } from './store/hooks';
 
 import { checkUserSession } from './store/user/user.slice';
 
@@ -11,7 +12,7 @@ import Shop from './routes/shop/shop.component';
 import Checkout from './routes/checkout/checkout.component';
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(checkUserSession());

@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 
 import {
   addItemToCart,
@@ -24,7 +24,7 @@ import {
 const CheckoutItem: FC<CheckoutItemProps> = ({ cartItem }) => {
   const { name, imageUrl, quantity, price } = cartItem;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addItemHandler = () => dispatch(addItemToCart(cartItem));
   const removeItemHandler = () => dispatch(removeItemFromCart(cartItem));

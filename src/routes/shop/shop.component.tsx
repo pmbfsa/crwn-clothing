@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router';
-import { useDispatch } from 'react-redux';
+
+import { useAppDispatch } from '../../store/hooks';
 
 import { fetchCategoriesStart } from '../../store/categories/categories.slice';
 
@@ -8,7 +9,7 @@ import CategoriesPreview from '../categories-preview/categories-preview.componen
 import Category from '../category/category.component';
 
 const Shop = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchCategoriesStart());

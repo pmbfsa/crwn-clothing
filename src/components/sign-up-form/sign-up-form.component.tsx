@@ -1,7 +1,8 @@
 import type { SubmitEvent, ChangeEvent } from 'react';
 
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+
+import { useAppDispatch } from '../../store/hooks';
 
 import type { AuthError } from 'firebase/auth';
 
@@ -22,7 +23,7 @@ const defaultFormFields = {
 };
 
 const SignUpForm = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;

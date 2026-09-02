@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { useParams } from 'react-router';
-import { useSelector } from 'react-redux';
+
+import { useAppSelector } from '../../store/hooks';
 
 import {
   selectCategoriesMap,
@@ -16,8 +17,8 @@ import { CategoryTitle, CategoryContainer } from './category.styles';
 
 const Category = () => {
   const { category } = useParams<CategoryParams>() as CategoryParams;
-  const categoriesMap = useSelector(selectCategoriesMap);
-  const isLoading = useSelector(selectCategoriesIsLoading);
+  const categoriesMap = useAppSelector(selectCategoriesMap);
+  const isLoading = useAppSelector(selectCategoriesIsLoading);
   const products = categoriesMap[category];
 
   return (

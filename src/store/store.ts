@@ -1,5 +1,4 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { useDispatch, useSelector } from 'react-redux';
 
 import type { PersistConfig } from 'redux-persist';
 
@@ -74,7 +73,3 @@ sagaMiddleware.run(rootSaga);
 // types
 export type PersistedRootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-
-// hooks
-export const useAppSelector = useSelector.withTypes<PersistedRootState>();
-export const useAppDispatch = useDispatch.withTypes<AppDispatch>();

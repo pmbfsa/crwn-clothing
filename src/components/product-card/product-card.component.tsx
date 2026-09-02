@@ -1,6 +1,6 @@
 import type { FC } from 'react';
 
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../store/hooks';
 
 import type { ProductCardProps } from './product-card.types';
 
@@ -20,7 +20,7 @@ import {
 const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const { name, imageUrl, price } = product;
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const addProductToCart = () => dispatch(addItemToCart(product));
 

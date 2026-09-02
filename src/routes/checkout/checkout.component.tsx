@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
 
 import {
   selectCartItems,
@@ -16,8 +16,8 @@ import {
 } from './checkout.styles';
 
 const Checkout = () => {
-  const cartItems = useSelector(selectCartItems);
-  const cartTotal = useSelector(selectCartTotal);
+  const cartItems = useAppSelector(selectCartItems);
+  const cartTotal = useAppSelector(selectCartTotal);
 
   return (
     <CheckoutContainer>

@@ -1,6 +1,7 @@
 import { Fragment } from 'react';
 import { Outlet } from 'react-router';
-import { useSelector, useDispatch } from 'react-redux';
+
+import { useAppSelector, useAppDispatch } from '../../store/hooks';
 
 import { signOutStart } from '../../store/user/user.slice';
 import { selectCurrentUser } from '../../store/user/user.selectors';
@@ -19,10 +20,10 @@ import {
 } from './navigation.styles';
 
 const Navigation = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const currentUser = useSelector(selectCurrentUser);
-  const isCartOpen = useSelector(selectIsCartOpen);
+  const currentUser = useAppSelector(selectCurrentUser);
+  const isCartOpen = useAppSelector(selectIsCartOpen);
 
   const signOutHandler = () => dispatch(signOutStart());
 

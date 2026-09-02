@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from '../../store/hooks';
 
 import { selectCartItems } from '../../store/cart/cart.selectors';
 
@@ -15,7 +15,7 @@ import {
 const CartDropdown = () => {
   const navigate = useNavigate();
 
-  const cartItems = useSelector(selectCartItems);
+  const cartItems = useAppSelector(selectCartItems);
 
   const goToCheckoutHandler = () => {
     navigate('/checkout');
