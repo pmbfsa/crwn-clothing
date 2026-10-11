@@ -1,10 +1,16 @@
 import type { PayloadAction } from '@reduxjs/toolkit';
+import type { User } from 'firebase/auth';
+import type { AdditionalInfo } from '../../utils/firebase/firebase.types';
+import type {
+  UserState,
+  CurrentUser,
+  UserSignIn,
+  UserSignUp,
+} from './user.types';
 
 import { createSlice } from '@reduxjs/toolkit';
 
-import type { UserState, CurrentUser } from './user.types';
-
-const initialState: UserState = {
+export const initialState: UserState = {
   currentUser: null,
   isLoading: false,
   error: null,
@@ -18,7 +24,7 @@ const userSlice = createSlice({
     googleSignInStart(state) {
       state.isLoading = true;
     },
-    emailSignInStart(state, _action) {
+    emailSignInStart(state, _action: PayloadAction<UserSignIn>) {
       state.isLoading = true;
     },
     signInSuccess(state, action: PayloadAction<CurrentUser>) {
@@ -28,16 +34,17 @@ const userSlice = createSlice({
     },
     signInFail(state, action: PayloadAction<Error>) {
       state.isLoading = false;
-      state.currentUser = null;
       state.error = action.payload;
     },
-    signUpStart(state, _action) {
+    signUpStart(state, _action: PayloadAction<UserSignUp>) {
       state.isLoading = true;
     },
-    signUpSuccess(_state, _action) {},
+    signUpSuccess(
+      _state,
+      _action: PayloadAction<{ user: User; additionalDetails: AdditionalInfo }>,
+    ) {},
     signUpFail(state, action: PayloadAction<Error>) {
       state.isLoading = false;
-      state.currentUser = null;
       state.error = action.payload;
     },
     signOutStart(state) {
@@ -50,7 +57,6 @@ const userSlice = createSlice({
     },
     signOutFail(state, action: PayloadAction<Error>) {
       state.isLoading = false;
-      state.currentUser = null;
       state.error = action.payload;
     },
   },

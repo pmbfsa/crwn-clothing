@@ -20,7 +20,7 @@ const Checkout = () => {
   const cartTotal = useAppSelector(selectCartTotal);
 
   return (
-    <CheckoutContainer>
+    <CheckoutContainer data-testid="checkout">
       <CheckoutHeader>
         <HeaderBlock>
           <span>Description</span>

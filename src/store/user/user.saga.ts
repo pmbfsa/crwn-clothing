@@ -44,15 +44,15 @@ function* getSnapshotFromUserAuth(
       additionalDetails,
     );
 
-    if (userSnapshot) {
-      yield* put(
-        signInSuccess({
-          id: userSnapshot.id,
-          ...userSnapshot.data(),
-          createdAt: userSnapshot.data().createdAt.toDate().toISOString(),
-        }),
-      );
-    }
+    if (!userSnapshot) return;
+
+    yield* put(
+      signInSuccess({
+        id: userSnapshot.id,
+        ...userSnapshot.data(),
+        createdAt: userSnapshot.data().createdAt.toDate().toISOString(),
+      }),
+    );
   } catch (error) {
     yield* put(signInFail(error as Error));
   }
@@ -122,6 +122,9 @@ function* signUp(action: PayloadAction<UserSignUp>) {
       }),
     );
   } catch (error) {
+    if ((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS)
+      alert('Cannot sign up, email already in use.');
+
     yield* put(signUpFail(error as Error));
   }
 }

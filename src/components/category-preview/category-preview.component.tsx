@@ -12,7 +12,7 @@ import {
 
 const CategoryPreview: FC<CategoryPreviewProps> = ({ title, products }) => {
   return (
-    <CategoryPreviewContainer>
+    <CategoryPreviewContainer data-testid="category-preview">
       <h2>
         <Title to={title}>{title.toUpperCase()}</Title>
       </h2>

@@ -76,19 +76,20 @@ const PaymentForm = () => {
       } else {
         if (paymentResult.paymentIntent.status === 'succeeded') {
           alert('Payment Successful!');
+        } else {
+          alert(paymentResult.paymentIntent.status);
         }
       }
-
-      setIsProcessingPayment(false);
     } catch (error) {
-      setIsProcessingPayment(false);
       console.log(error);
+    } finally {
+      setIsProcessingPayment(false);
     }
   };
 
   return (
-    <PaymentFormContainer>
-      <FormContainer onSubmit={paymentHandler}>
+    <PaymentFormContainer data-testid="payment-form">
+      <FormContainer data-testid="form" onSubmit={paymentHandler}>
         <h2>Credit Card Payment:</h2>
         <CardElement />
         <PaymentButton

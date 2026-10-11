@@ -6,13 +6,13 @@ import type { Category } from '../../routes/category/category.types';
 
 import type { CategoriesState } from './categories.types';
 
-const initialState: CategoriesState = {
+export const initialState: CategoriesState = {
   categories: [],
   isLoading: false,
   error: null,
 };
 
-export const categoriesSlice = createSlice({
+const categoriesSlice = createSlice({
   name: 'categories',
   initialState,
   reducers: {

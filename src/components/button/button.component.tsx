@@ -27,7 +27,7 @@ const Button: FC<ButtonProps> = ({
 
   return (
     <CustomButton disabled={isLoading} {...buttonProps}>
-      {isLoading ? <ButtonSpinner /> : children}
+      {isLoading ? <ButtonSpinner data-testid="button-spinner" /> : children}
     </CustomButton>
   );
 };

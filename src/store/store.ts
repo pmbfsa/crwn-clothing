@@ -23,7 +23,7 @@ import rootReducer from './root-reducer';
 import rootSaga from './root-saga';
 
 // redux-persist configuration
-const storage = {
+export const storage = {
   getItem: (key: string) => Promise.resolve(window.localStorage.getItem(key)),
   setItem: (key: string, value: string) =>
     Promise.resolve(window.localStorage.setItem(key, value)),
@@ -45,31 +45,44 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 const sagaMiddleware = createSagaMiddleware();
 
 // store configuration
-export const store = configureStore({
-  reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => {
-    const middleware = getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [
-          FLUSH,
-          REHYDRATE,
-          PAUSE,
-          PERSIST,
-          PURGE,
-          REGISTER,
-          signUpSuccess.type,
-        ],
-      },
-    }).concat(sagaMiddleware);
+export function setupStore(testing = false, preloadedState?: PreloadedState) {
+  const store = testing
+    ? configureStore({
+        reducer: rootReducer,
+        preloadedState,
+      })
+    : configureStore({
+        reducer: persistedReducer,
+        middleware: (getDefaultMiddleware) => {
+          const middleware = getDefaultMiddleware({
+            serializableCheck: {
+              ignoredActions: [
+                FLUSH,
+                REHYDRATE,
+                PAUSE,
+                PERSIST,
+                PURGE,
+                REGISTER,
+                signUpSuccess.type,
+              ],
+            },
+          }).concat(sagaMiddleware);
 
-    return middleware;
-  },
-});
+          return middleware;
+        },
+      });
+  return store;
+}
 
+export const store = setupStore();
 export const persistor = persistStore(store);
 
 sagaMiddleware.run(rootSaga);
 
-// types
-export type PersistedRootState = ReturnType<typeof store.getState>;
+// hooks types
+export type PersistedRootState = ReturnType<typeof persistedReducer>;
 export type AppDispatch = typeof store.dispatch;
+
+// test utils types
+export type PreloadedState = Parameters<typeof rootReducer>[0];
+export type AppStore = typeof store;

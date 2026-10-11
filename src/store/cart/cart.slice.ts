@@ -48,7 +48,7 @@ const removeCartItem = (
 const clearCartItem = (cartItems: CartItem[], cartItemToClear: CartItem) =>
   cartItems.filter((cartItem) => cartItem.id !== cartItemToClear.id);
 
-const initialState: CartState = {
+export const initialState: CartState = {
   isCartOpen: false,
   cartItems: [],
 };

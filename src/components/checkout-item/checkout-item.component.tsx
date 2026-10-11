@@ -37,12 +37,18 @@ const CheckoutItem: FC<CheckoutItemProps> = ({ cartItem }) => {
       </ImageContainer>
       <Name>{name}</Name>
       <Quantity>
-        <Arrow onClick={removeItemHandler}>&#10094;</Arrow>
+        <Arrow data-testid="left-arrow" onClick={removeItemHandler}>
+          &#10094;
+        </Arrow>
         <Value>{quantity}</Value>
-        <Arrow onClick={addItemHandler}>&#10095;</Arrow>
+        <Arrow data-testid="right-arrow" onClick={addItemHandler}>
+          &#10095;
+        </Arrow>
       </Quantity>
       <Price>{price}</Price>
-      <RemoveButton onClick={clearItemHandler}>&#10005;</RemoveButton>
+      <RemoveButton data-testid="x-button" onClick={clearItemHandler}>
+        &#10005;
+      </RemoveButton>
     </CheckoutItemContainer>
   );
 };

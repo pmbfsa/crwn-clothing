@@ -4,10 +4,6 @@ import { useState } from 'react';
 
 import { useAppDispatch } from '../../store/hooks';
 
-import type { AuthError } from 'firebase/auth';
-
-import { AuthErrorCodes } from 'firebase/auth';
-
 import { signUpStart } from '../../store/user/user.slice';
 
 import FormInput from '../form-input/form-input.component';
@@ -40,17 +36,8 @@ const SignUpForm = () => {
       return;
     }
 
-    try {
-      dispatch(signUpStart({ email, password, displayName }));
-
-      resetFormFields();
-    } catch (error) {
-      if ((error as AuthError).code === AuthErrorCodes.EMAIL_EXISTS) {
-        alert('Cannot sign up, email already in use.');
-      } else {
-        console.log('user create authentication failed:', error);
-      }
-    }
+    dispatch(signUpStart({ email, password, displayName }));
+    resetFormFields();
   };
 
   const fieldChangeHandle = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,11 +46,12 @@ const SignUpForm = () => {
   };
 
   return (
-    <SignUpContainer>
+    <SignUpContainer data-testid="sign-up-form">
       <h2>Dan't have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={formSubmitHandle}>
         <FormInput
+          data-testid="sign-up-name-input"
           label="Display Name"
           name="displayName"
           value={displayName}
@@ -72,6 +60,7 @@ const SignUpForm = () => {
           required
         />
         <FormInput
+          data-testid="sign-up-email-input"
           label="Email"
           name="email"
           value={email}
@@ -80,6 +69,7 @@ const SignUpForm = () => {
           required
         />
         <FormInput
+          data-testid="sign-up-password-input"
           label="Password"
           name="password"
           value={password}
@@ -88,6 +78,7 @@ const SignUpForm = () => {
           required
         />
         <FormInput
+          data-testid="sign-up-confirm-password-input"
           label="Confirm Password"
           name="confirmPassword"
           value={confirmPassword}

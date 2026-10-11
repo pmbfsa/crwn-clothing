@@ -25,7 +25,7 @@ const ProductCard: FC<ProductCardProps> = ({ product }) => {
   const addProductToCart = () => dispatch(addItemToCart(product));
 
   return (
-    <ProductCardContainer>
+    <ProductCardContainer data-testid="product-card">
       <img src={imageUrl} alt={`${name}`} />
       <Footer>
         <Name>{name}</Name>

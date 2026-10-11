@@ -17,11 +17,11 @@ export function* fetchCategoriesAsync() {
   }
 }
 
-function* onFetchCategories() {
+export function* onFetchCategories() {
   yield* takeLatest(fetchCategoriesStart.type, fetchCategoriesAsync);
 }
 
-function* categoriesSaga() {
+export function* categoriesSaga() {
   yield* all([call(onFetchCategories)]);
 }
 

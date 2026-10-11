@@ -22,7 +22,7 @@ const CartDropdown = () => {
   };
 
   return (
-    <CartDropdownContainer>
+    <CartDropdownContainer data-testid="cart-dropdown">
       <CartItems>
         {cartItems.length ? (
           cartItems.map((item) => <CartItem key={item.id} cartItem={item} />)

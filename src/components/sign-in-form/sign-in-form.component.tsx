@@ -49,11 +49,12 @@ const SignInForm = () => {
   };
 
   return (
-    <SignInContainer>
+    <SignInContainer data-testid="sign-in-form">
       <h2>I already have an account</h2>
       <span>Sign in with your email and password</span>
       <form onSubmit={formSubmitHandle}>
         <FormInput
+          data-testid="sign-in-email-input"
           label="Email"
           name="email"
           value={email}
@@ -62,6 +63,7 @@ const SignInForm = () => {
           required
         />
         <FormInput
+          data-testid="sign-in-password-input"
           label="Password"
           name="password"
           value={password}

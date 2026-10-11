@@ -37,7 +37,7 @@ const directories = [
 
 const Directory = () => {
   return (
-    <DirectoryContainer>
+    <DirectoryContainer data-testid="directory">
       {directories.map((directory) => (
         <DirectoryItem key={directory.id} directory={directory} />
       ))}
