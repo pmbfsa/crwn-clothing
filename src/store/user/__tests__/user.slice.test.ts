@@ -1,3 +1,5 @@
+import type { User } from 'firebase/auth';
+
 import {
   initialState,
   checkUserSession,
@@ -73,13 +75,21 @@ describe('User slice', () => {
 
   it('should do nothing when signUpSuccess is called', () => {
     const mockUser = {
-      id: '1',
-      createdAt: Date.now().toString(),
-      displayName: 'Teste',
+      uid: '1',
       email: 'teste@teste.com',
+    } as User;
+
+    const mockAdditionalDetails = {
+      displayName: 'Teste',
     };
 
-    const newState = userReducer(initialState, signUpSuccess(mockUser));
+    const newState = userReducer(
+      initialState,
+      signUpSuccess({
+        user: mockUser,
+        additionalDetails: mockAdditionalDetails,
+      }),
+    );
     expect(newState).toEqual(initialState);
   });
 
