@@ -28,13 +28,25 @@ import type { Category } from '../../routes/category/category.types';
 
 import type { UserData, AdditionalInfo, ObjectToAdd } from './firebase.types';
 
+//Firebase Config
+const firebaseConfig = {
+  apiKey: import.meta.env.VITE_GOOGLE_API_KEY as string,
+  authDomain: 'crwn-clothing-b173b.firebaseapp.com',
+  projectId: 'crwn-clothing-b173b',
+  storageBucket: 'crwn-clothing-b173b.firebasestorage.app',
+  messagingSenderId: '422941695743',
+  appId: '1:422941695743:web:bf250b0e98c6c41150f6ca',
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+
 // Firebase Authentication
 export const googleProvider = new GoogleAuthProvider();
 googleProvider.setCustomParameters({
   prompt: 'select_account',
 });
 
-export const auth = getAuth();
+export const auth = getAuth(firebaseApp);
 
 export const signInWithGooglePopup = () =>
   signInWithPopup(auth, googleProvider);
@@ -74,18 +86,6 @@ export const getCurrentUser = (): Promise<User | null> => {
     );
   });
 };
-
-//Firebase Config
-const firebaseConfig = {
-  apiKey: import.meta.env.VITE_GOOGLE_API_KEY as string,
-  authDomain: 'crwn-clothing-b173b.firebaseapp.com',
-  projectId: 'crwn-clothing-b173b',
-  storageBucket: 'crwn-clothing-b173b.firebasestorage.app',
-  messagingSenderId: '422941695743',
-  appId: '1:422941695743:web:bf250b0e98c6c41150f6ca',
-};
-
-const firebaseApp = initializeApp(firebaseConfig);
 
 // Farebase Firestore
 export const db = getFirestore(firebaseApp);
